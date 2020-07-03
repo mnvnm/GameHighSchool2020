@@ -7,13 +7,19 @@ public class Bullet : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        //_Velocity = transform.forward;
     }
+    public Vector3 _Velocity;
 
     public float Speed = 8;
+
     // Update is called once per frame
     void Update()
     {
+        Rigidbody rigidbody = GetComponent<Rigidbody>();
+
+        rigidbody.velocity = (_Velocity * Speed);
+
         transform.position += transform.forward * Speed * Time.deltaTime;
 
         tick += Time.deltaTime;
