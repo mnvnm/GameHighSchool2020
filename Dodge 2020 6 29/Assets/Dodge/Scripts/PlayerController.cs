@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     }
 
     private float Speed = 8;
+    public GameManager gameMNG;
 
     // Update is called once per frame
     void Update()
@@ -62,11 +63,14 @@ public class PlayerController : MonoBehaviour
         }
 
         if (Input.GetKeyDown(KeyCode.F)) Die();
+
     }
+
 
     public void  Die()
     {
         Debug.Log("Die");
-        gameObject.SetActive(false);
+        transform.position = new Vector3(0, 1, 0);
+        gameMNG.GameOver();
     }
 }

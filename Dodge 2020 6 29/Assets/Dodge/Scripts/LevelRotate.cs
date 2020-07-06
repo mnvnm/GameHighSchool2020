@@ -5,19 +5,25 @@ using UnityEngine;
 public class LevelRotate : MonoBehaviour
 {
     // Start is called before the first frame update
-    public float Speed = 100;
+    public float Speed = 0.5f;
+    public GameManager gameMNG;
 
     // Update is called once per frame
     void Update()
     {
 
-        transform.Rotate(0, 0.5f, 0);
+        transform.Rotate(0, Speed * Time.deltaTime, 0);
 
-        // GameObject player = GameObject.FindGameObjectWithTag("Player");
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        
+        if(gameMNG.IsPlaying == false)
+        {
+            transform.Rotate(0, 0, 0);
+        }
 
 
         //if (player != null)
-        //transform.LookAt(player.transform);
+            //transform.LookAt(player.transform);
 
 
     }
