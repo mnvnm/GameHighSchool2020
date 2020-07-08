@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.ComTypes;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
@@ -29,16 +30,20 @@ public class Bullet : MonoBehaviour
             Debug.Log("총알 컷");
             Destroy(gameObject);
         }
-        Debug.Log(tick);
     }
     private float tick = 0;
     private void OnTriggerEnter(Collider other)
     {
         if(other.attachedRigidbody.tag == "Player" && other.attachedRigidbody.tag != null)
         {
-            var player = other.attachedRigidbody.GetComponent<PlayerController>();
+            var player = other.attachedRigidbody.GetComponent<PlayerController_D>();
             player.Die();
             Debug.Log("플레이어와 총알이 충돌");
         }
+        else 
+        {
+            Destroy(gameObject);
+        }
+
     }
 }

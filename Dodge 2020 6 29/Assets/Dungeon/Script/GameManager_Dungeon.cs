@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameManager : MonoBehaviour
+public class GameManager_Dungeon : MonoBehaviour
 {
     public Text ScoreUI;
     public Text RestartUI;
 
-    public PlayerController m_PlayerController;
+    public PlayerController_D m_PlayerController;
     //public LevelRotate levelR;
     public List<GameObject> m_BulletSpawner;
     public List<GameObject> m_BulletRotationSpawner;
 
     public bool IsPlaying;
-    public int Score;
+    public int Score_tick;
 
     public float tick = 0;
     // Start is called before the first frame update
@@ -26,15 +26,15 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(IsPlaying)
+        if (IsPlaying)
         {
             tick += Time.deltaTime;
-            if(tick > 1)
+            if (tick > 1)
             {
-                Score += 100;
+                Score_tick += 1;
                 tick = 0;
             }
-            ScoreUI.text = string.Format("Score : {0}", Score);
+            ScoreUI.text = string.Format("Time : {0}", Score_tick);
         }
         else
         {
@@ -44,7 +44,7 @@ public class GameManager : MonoBehaviour
             }
 
         }
-        if(Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             Application.Quit();
         }
@@ -54,43 +54,19 @@ public class GameManager : MonoBehaviour
     {
         //levelR.enabled = true;
         IsPlaying = true;
-        Score = 0;
+        Score_tick = 0;
         RestartUI.gameObject.SetActive(false);
         m_PlayerController.gameObject.SetActive(true);
-        for(int i = 0; i < m_BulletSpawner.Count;i++)
+        for (int i = 0; i < m_BulletSpawner.Count; i++)
         {
             m_BulletSpawner[i].gameObject.SetActive(true);
         }
-    }
-    public void GameOver()
-    {
-        IsPlaying = false;
-        RestartUI.gameObject.SetActive(true);
-        m_PlayerController.gameObject.SetActive(false);
-        for (int i = 0; i < m_BulletSpawner.Count; i++)
+
+        for (int i = 0; i < m_BulletRotationSpawner.Count; i++)
         {
-            m_BulletSpawner[i].gameObject.SetActive(false);
+            m_BulletRotationSpawner[i].gameObject.SetActive(true);
         }
 
-        Bullet[] bullet = FindObjectsOfType<Bullet>();
-
-        for (int i = 0; i < bullet.Length; i++)
-        {
-            Destroy(bullet[i].gameObject);
-        }
-
-        //levelR.enabled = false;
-        //levelR.transform.rotation = Quaternion.identity;
-
-        int topScore = PlayerPrefs.GetInt("TopScore", 0);
-        if (topScore < Score)
-        {
-            topScore = Score;
-        }
-        PlayerPrefs.SetInt("TopScore", topScore);
-        PlayerPrefs.Save();
-
-        RestartUI.text = string.Format("GameOver..\n TopScore : {0}\nRestart : R", topScore);
     }
     public void GameWin()
     {
@@ -115,9 +91,9 @@ public class GameManager : MonoBehaviour
         }
 
         int topScore = PlayerPrefs.GetInt("TopScore", 0);
-        if (topScore < Score)
+        if (topScore > Score_tick)
         {
-            topScore = Score;
+            topScore = Score_tick;
         }
         PlayerPrefs.SetInt("TopScore", topScore);
         PlayerPrefs.Save();
