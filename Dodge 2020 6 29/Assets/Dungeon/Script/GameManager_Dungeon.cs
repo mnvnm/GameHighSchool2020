@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
 
 public class GameManager_Dungeon : MonoBehaviour
@@ -10,13 +12,12 @@ public class GameManager_Dungeon : MonoBehaviour
 
     public PlayerController_D m_PlayerController;
     //public LevelRotate levelR;
-    public List<GameObject> m_BulletSpawner;
-    public List<GameObject> m_BulletRotationSpawner;
 
     public bool IsPlaying;
     public int Score_tick;
 
     public float tick = 0;
+
     // Start is called before the first frame update
     private void Start()
     {
@@ -57,15 +58,10 @@ public class GameManager_Dungeon : MonoBehaviour
         Score_tick = 0;
         RestartUI.gameObject.SetActive(false);
         m_PlayerController.gameObject.SetActive(true);
-        for (int i = 0; i < m_BulletSpawner.Count; i++)
-        {
-            m_BulletSpawner[i].gameObject.SetActive(true);
-        }
 
-        for (int i = 0; i < m_BulletRotationSpawner.Count; i++)
-        {
-            m_BulletRotationSpawner[i].gameObject.SetActive(true);
-        }
+        SetActivAllGameObject(typeof(BulletSpawner), true);
+        SetActivAllGameObject(typeof(BulletRotationSpawner), true);
+        SetActivAllGameObject(typeof(Bullet), true);
 
     }
     public void GameWin()
@@ -73,31 +69,56 @@ public class GameManager_Dungeon : MonoBehaviour
         IsPlaying = false;
         RestartUI.gameObject.SetActive(true);
         //m_PlayerController.gameObject.SetActive(false);
-        for (int i = 0; i < m_BulletSpawner.Count; i++)
+
+        SetActivAllGameObject(typeof(BulletSpawner), false);
+        SetActivAllGameObject(typeof(BulletRotationSpawner), false);
+        SetActivAllGameObject(typeof(Bullet), false);
+
+        int num1 = PlayerPrefs.GetInt("1st",999);
+        int num2 = PlayerPrefs.GetInt("2nd",999);
+        int num3 = PlayerPrefs.GetInt("3rd",999);
+
+        if(Score_tick < num1)
         {
-            m_BulletSpawner[i].gameObject.SetActive(false);
+            num3 = num2;
+            num2 = num1;
+            num1 = Score_tick;
+        }
+        else if(Score_tick < num2)
+        {
+            num3 = num2;
+            num2 = Score_tick;
+        }
+        else if(Score_tick < num3)
+        {
+            num3 = Score_tick;
         }
 
-        for (int i = 0; i < m_BulletRotationSpawner.Count; i++)
-        {
-            m_BulletRotationSpawner[i].gameObject.SetActive(false);
-        }
-
-        Bullet[] bullet = FindObjectsOfType<Bullet>();
-
-        for (int i = 0; i < bullet.Length; i++)
-        {
-            Destroy(bullet[i].gameObject);
-        }
-
-        int topScore = PlayerPrefs.GetInt("TopScore", 0);
-        if (topScore > Score_tick)
-        {
-            topScore = Score_tick;
-        }
-        PlayerPrefs.SetInt("TopScore", topScore);
+        PlayerPrefs.SetInt("1st", num1);
+        PlayerPrefs.SetInt("2nd", num2);
+        PlayerPrefs.SetInt("3rd", num3);
         PlayerPrefs.Save();
 
-        RestartUI.text = string.Format("GameWin!!\n TopScore : {0}\nRestart : R", topScore);
+        RestartUI.text = string.Format("GameWin!!\n 1st : {0} \n 2nd : {1} \n 3rd : {2}\nRestart : R", num1,num2,num3);
     }
+
+    public void SetActivAllGameObject(Type type, bool isActivity)
+    {
+        var objects = Resources.FindObjectsOfTypeAll(type);
+        foreach(var obj in objects)
+        {
+            var gonj = (MonoBehaviour)obj;
+            gonj.gameObject.SetActive(isActivity);
+        }
+    }
+
+    //public void SetDisactivAllGameObject(Type type)
+    //{
+    //    SetActivAllGameObject(type, false);
+    //}
+    //
+    //public void SetDisactivAllBulletSpawner()
+    //{
+    //    SetDisactivAllGameObject(typeof(BulletSpawner));
+    //}
 }

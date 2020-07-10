@@ -34,14 +34,16 @@ public class Bullet : MonoBehaviour
     private float tick = 0;
     private void OnTriggerEnter(Collider other)
     {
-        if(other.attachedRigidbody.tag == "Player" && other.attachedRigidbody.tag != null)
+        if (other == null)
+            return;
+        if(other.attachedRigidbody != null && other.attachedRigidbody.tag == "Player")
         {
             var player = other.attachedRigidbody.GetComponent<PlayerController_D>();
             player.Die();
             Debug.Log("플레이어와 총알이 충돌");
         }
         else 
-        {
+        {   
             Destroy(gameObject);
         }
 

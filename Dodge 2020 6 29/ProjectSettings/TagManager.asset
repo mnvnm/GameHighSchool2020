@@ -8,6 +8,7 @@ TagManager:
   - Wall
   - Trap
   - DownWall
+  - rt
   layers:
   - Default
   - TransparentFX

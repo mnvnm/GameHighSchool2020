@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class B_R_SpawnerOn : MonoBehaviour
 {
-    public List<GameObject> m_BulletRotationSpawner;
+    public GameManager_Dungeon gameMNG_D;
+
     // Start is called before the first frame update
     void Start()
     {
+        gameMNG_D = FindObjectOfType<GameManager_Dungeon>();
 
     }
-
+    
     // Update is called once per frame
     void Update()
     {
@@ -18,13 +20,10 @@ public class B_R_SpawnerOn : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.attachedRigidbody.tag == "Player" && other.attachedRigidbody.tag != null)
+        if (  other.attachedRigidbody != null && other.attachedRigidbody.tag == "Player")
         {
-            for (int i = 0; i < m_BulletRotationSpawner.Count; i++)
-            {
-                m_BulletRotationSpawner[i].gameObject.SetActive(false);
-            }
-            Debug.Log("플레이어와 총알 로테이션 스포너 Off 충돌");
+            gameMNG_D.SetActivAllGameObject(typeof(BulletRotationSpawner), true);
+            Debug.Log("플레이어와 총알 로테이션 스포너 On 충돌");
         }
 
     }
