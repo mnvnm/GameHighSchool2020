@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
+    Rigidbody rigidbody;
     // Start is called before the first frame update
     void Start()
     {
@@ -15,9 +16,10 @@ public class Bullet : MonoBehaviour
     public float Speed = 8;
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        Rigidbody rigidbody = GetComponent<Rigidbody>();
+        if (rigidbody == null)
+            rigidbody = GetComponent<Rigidbody>();
 
         rigidbody.velocity = (_Velocity * Speed);
 
@@ -34,15 +36,13 @@ public class Bullet : MonoBehaviour
     private float tick = 0;
     private void OnTriggerEnter(Collider other)
     {
-        if (other == null)
-            return;
-        if(other.attachedRigidbody != null && other.attachedRigidbody.tag == "Player")
+        if(other.gameObject.CompareTag("Player"))
         {
             var player = other.attachedRigidbody.GetComponent<PlayerController_D>();
             player.Die();
             Debug.Log("플레이어와 총알이 충돌");
         }
-        else 
+        else if(other.gameObject.CompareTag("Wall"))
         {   
             Destroy(gameObject);
         }

@@ -9,6 +9,8 @@ public class GameManager_Dungeon : MonoBehaviour
 {
     public Text ScoreUI;
     public Text RestartUI;
+    public Image Minimap;
+    public bool Minimap_visible;
 
     public PlayerController_D m_PlayerController;
     //public LevelRotate levelR;
@@ -22,6 +24,7 @@ public class GameManager_Dungeon : MonoBehaviour
     private void Start()
     {
         GameStart();
+
     }
 
     // Update is called once per frame
@@ -49,6 +52,12 @@ public class GameManager_Dungeon : MonoBehaviour
         {
             Application.Quit();
         }
+        if(Input.GetKey(KeyCode.M))
+        {
+            Minimap_visible = !Minimap_visible;
+        }
+
+        Minimap.gameObject.SetActive(Minimap_visible);
     }
 
     public void GameStart()

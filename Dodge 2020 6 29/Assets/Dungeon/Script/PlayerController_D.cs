@@ -18,14 +18,14 @@ public class PlayerController_D : MonoBehaviour
     {
         Rigidbody rigidbody = GetComponent<Rigidbody>();
 
-        float xAxis = Input.GetAxis("Horizontal");
-        float yAxis = Input.GetAxis("Vertical");
+        float xAxis = Input.GetAxisRaw("Horizontal");
+        float yAxis = Input.GetAxisRaw("Vertical");
 
         if (gameMNG.IsPlaying)
         {
-            Vector3 velocity = new Vector3(xAxis, 0, yAxis) * Speed;
-
-            rigidbody.transform.position += velocity * Time.deltaTime;
+            //Vector3 velocity = new Vector3(xAxis, 0, yAxis) * Speed;
+            rigidbody.velocity = new Vector3(xAxis, 0, yAxis) * Speed;
+            //rigidbody.transform.position += velocity * Time.deltaTime;
         }
 
         //if (Input.GetKeyDown(KeyCode.Space)) // 키보드에 스페이스가 눌렸을때

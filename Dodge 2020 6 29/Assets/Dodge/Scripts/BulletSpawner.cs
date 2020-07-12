@@ -15,7 +15,7 @@ public class BulletSpawner : MonoBehaviour
         tick += Time.deltaTime;
         if (tick > 1)
         {
-            GameObject bullet = GameObject.Instantiate(m_bullet);
+            GameObject bullet = Instantiate(m_bullet);
             bullet.transform.position = transform.position;
             bullet.transform.rotation = transform.rotation;
 
