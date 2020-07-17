@@ -26,13 +26,13 @@ public class PlayerController : MonoBehaviour
             isdead = !isdead;
         if (Input.GetKey(KeyCode.A))
         {
-            m_player.position += new Vector2(-2, 0) * Time.deltaTime;
+            m_player.position += new Vector2(-3, 0) * Time.deltaTime;
             transform.localScale = new Vector2(-3, 3);
         }
            
         if (Input.GetKey(KeyCode.D))
         {
-            m_player.position += new Vector2(2, 0) * Time.deltaTime;
+            m_player.position += new Vector2(3, 0) * Time.deltaTime;
             transform.localScale = new Vector2(3, 3);
 
         }
@@ -41,7 +41,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && jumpCount < 2)
         {
             m_player.velocity = Vector2.zero;
-            m_player.AddForce(Vector2.up * 300);
+            m_player.AddForce(Vector2.up * 450);
             jumpCount++;
             m_AudioSource.clip = m_Jump_S;
             m_AudioSource.Play();
@@ -70,12 +70,13 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "DeadZone")
+        if (collision.tag == "DeadZone" && !isdead)
         {
             isdead = true;
             m_Animator.SetBool("IsDead", isdead);
             m_AudioSource.clip = m_Die_S;
             m_AudioSource.Play();
+            FindObjectOfType<PlatformSpawner>().enabled = false;
             GameManager.Instance.OnPlayerDead();
         }
     }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -30,14 +31,22 @@ public class GameManager : MonoBehaviour
     {
         IsGameOver = true;
         m_GameOverUI.SetActive(true);
+        ScrollingObject[] scrollingObjects =  FindObjectsOfType<ScrollingObject>();
+        foreach(var scrollingObject in scrollingObjects)
+        {
+            scrollingObject.enabled = false;
+        }
     }
     public void OnAddScore()
     {
         m_Score += 10;
         m_ScoreUI.text = string.Format("SCORE : {0}" , m_Score);
     }
-    void Update()
+    private void Update()
     {
-
+        if(IsGameOver && Input.GetKeyDown(KeyCode.R))
+        {
+            SceneManager.LoadScene("Level_UniRun");
+        }
     }
 }
