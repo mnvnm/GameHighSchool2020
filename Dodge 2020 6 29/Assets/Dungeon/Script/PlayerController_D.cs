@@ -63,6 +63,7 @@ public class PlayerController_D : MonoBehaviour
     {
         Debug.Log("Die");
         transform.position = new Vector3(0, 1, 0);
+        gameMNG.DeathCount++;
         //gameMNG.GameOver();
     }
     public void Win()

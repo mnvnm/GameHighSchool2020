@@ -9,6 +9,7 @@ TagManager:
   - Trap
   - DownWall
   - rt
+  - MapCam
   layers:
   - Default
   - TransparentFX

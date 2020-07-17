@@ -9,7 +9,7 @@ public class GameManager_Dungeon : MonoBehaviour
 {
     public Text ScoreUI;
     public Text RestartUI;
-    public Image Minimap;
+    public GameObject Minimap;
     public bool Minimap_visible;
 
     public PlayerController_D m_PlayerController;
@@ -17,6 +17,7 @@ public class GameManager_Dungeon : MonoBehaviour
 
     public bool IsPlaying;
     public int Score_tick;
+    public int DeathCount = 0;
 
     public float tick = 0;
 
@@ -38,7 +39,7 @@ public class GameManager_Dungeon : MonoBehaviour
                 Score_tick += 1;
                 tick = 0;
             }
-            ScoreUI.text = string.Format("Time : {0}", Score_tick);
+            ScoreUI.text = string.Format("Time : {0}\n Death : {1}", Score_tick, DeathCount);
         }
         else
         {
@@ -52,19 +53,20 @@ public class GameManager_Dungeon : MonoBehaviour
         {
             Application.Quit();
         }
-        if(Input.GetKey(KeyCode.M))
+        if(Input.GetKeyDown(KeyCode.M))
         {
             Minimap_visible = !Minimap_visible;
         }
 
-        Minimap.gameObject.SetActive(Minimap_visible);
+        Minimap.SetActive(Minimap_visible);
     }
 
     public void GameStart()
     {
         //levelR.enabled = true;
         IsPlaying = true;
-        Score_tick = 0;
+        Score_tick = 0; 
+        DeathCount = 0;
         RestartUI.gameObject.SetActive(false);
         m_PlayerController.gameObject.SetActive(true);
 
@@ -75,7 +77,7 @@ public class GameManager_Dungeon : MonoBehaviour
     }
     public void GameWin()
     {
-        IsPlaying = false;
+           IsPlaying = false;
         RestartUI.gameObject.SetActive(true);
         //m_PlayerController.gameObject.SetActive(false);
 
