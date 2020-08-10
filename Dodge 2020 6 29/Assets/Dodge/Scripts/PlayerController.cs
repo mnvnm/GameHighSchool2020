@@ -16,12 +16,12 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Rigidbody rigidbody = GetComponent<Rigidbody>();
+        //Rigidbody rigidbody = GetComponent<Rigidbody>();
 
         float xAxis = Input.GetAxis("Horizontal");
         float yAxis = Input.GetAxis("Vertical");
 
-        //rigidbody.AddForce(new Vector3(xAxis, 0, yAxis) * Speed) ;
+        transform.position = new Vector3(xAxis, 0, yAxis) * Speed ;
 
 
         if (Input.GetKeyDown(KeyCode.Space)) // 키보드에 스페이스가 눌렸을때
