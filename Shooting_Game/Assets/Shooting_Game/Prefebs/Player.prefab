@@ -491,7 +491,7 @@ GameObject:
   - component: {fileID: 7105402726443927967}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -530,12 +530,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d24bca2a138088b418b38bb14f0a245a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Speed: 6
   m_bullet: {fileID: 1149203911261477414, guid: a2f85774600372d429a63288dda559c7,
     type: 3}
   B_Speed: 100
   tick: 0
   fixjoy: {fileID: 0}
-  Speed: 50
   m_BulletPrefab: {fileID: 4141856081675248821, guid: a2f85774600372d429a63288dda559c7,
     type: 3}
   m_FireMuzzles: []
