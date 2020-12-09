@@ -6,14 +6,10 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     Rigidbody rigidbody;
-    // Start is called before the first frame update
-    void Start()
-    {
-        //_Velocity = transform.forward;
-    }
     public Vector3 _Velocity;
 
     public float Speed = 8;
+    private float tick = 0;
 
     // Update is called once per frame
     void FixedUpdate()
@@ -33,7 +29,6 @@ public class Bullet : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    private float tick = 0;
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.CompareTag("Player"))
